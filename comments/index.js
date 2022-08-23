@@ -22,7 +22,6 @@ app.post('/post/:id/comments', async (req, res) => {
     const postId = req.params.id
 
     if(content){
-
         comments = commentsByPostId[postId] || []
         comments.push({ id: id, content: content })
         commentsByPostId[postId] = comments
@@ -39,7 +38,7 @@ app.post('/post/:id/comments', async (req, res) => {
 })
 
 app.post('/events', (req, res) => {
-    console.log(req.body.type);
+    console.log('Event Received:', req.body.type);
     res.status(201).send({ status: 'OK'})
 })
 

@@ -36,11 +36,11 @@ app.post('/posts', async (req, res) => {
 })
 
 app.post('/events', (req, res) => {
-    console.log(req.body.type);
+    console.log('Event Received: ', req.body.type);
     res.status(201).send({ status: 'OK'})
 })
 
 
 app.listen('4000', () => {
-    console.log('Running on port 4000');
+    console.log('Running on port  4000');
 })
