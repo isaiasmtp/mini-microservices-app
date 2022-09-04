@@ -16,7 +16,7 @@ app.get('/posts', (req, res) => {
 
 
 
-app.post('/events', (req, res) => {
+app.post('/events', async (req, res) => {
     const { type, data } = req.body;
     console.log('Event Received:', req.body.type);
 
@@ -26,11 +26,22 @@ app.post('/events', (req, res) => {
     }
 
     if ( type === 'CommentCreated' ){
-        const { id, content, postId } = data;
+        const { id, content, postId, status } = data;
 
         const post = posts[postId];
-        post.comments.push( { id, content })
+        post.comments.push( { id, content, status })
+    }
 
+    if(type === 'CommentUpdated') {
+        const { postId, id, status, content } = data;
+        const post = posts[postId]
+        
+        const comment = post.comments.find(comment => {
+            return comment.id === id;
+        })
+
+        comment.status = status;
+        comment.content = content;
     }
 
     res.status(201).send({ status: 'OK'})
