@@ -8,17 +8,28 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json());   
 app.use(cors())
 
+const events = []
 
 app.post('/events', async (req, res) => {
     const event = req.body;
+    events.push(event)
+
     console.log('Event Emitted: ', req.body.type);
 
-    await axios.post('http://localhost:4000/events', event);
-    await axios.post('http://localhost:4001/events', event);
-    await axios.post('http://localhost:4002/events', event);
-    await axios.post('http://localhost:4003/events', event);
+    try {
+        await axios.post('http://localhost:4000/events', event);
+        await axios.post('http://localhost:4001/events', event);
+        await axios.post('http://localhost:4002/events', event);
+        await axios.post('http://localhost:4003/events', event);
+    } catch (err) {
+        console.log(err.message);
+    }
 
     res.send({ status: 'OK' })
+})
+
+app.get('/events', (req, res) => {
+    res.send(events);
 })
 
 
